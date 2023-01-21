@@ -37,18 +37,38 @@
                             <label for="count">Enter the Row Count</label>
                             <input type="number" value="Enter number" id="count" class="form-control" name="count">
                         </div>
-{{--                        <div class="col-md-8">--}}
-{{--                            <div class="mt-3">--}}
-{{--                                <label for="">Section Title</label>--}}
-{{--                                <div id="Number">--}}
+                        <div class="col-md-8">
+                            <div class="mt-3">
+                                <label for="">Section Title</label>
+                                <div id="Number">
 
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-primary mt-3"> Save </button>
+                    <button class="btn btn-primary mt-3"> Save</button>
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        $('#count').on('keyup click onchange', function () {
+            console.log($(this).val());
+            $('#Number').append('');
+            if ($(this).val() > 0) {
+                for($i=0;$i < $(this).val();$i++)
+                {
+                    $('#Number').append('<input type="text" value="Enter title"  class="form-control mt-2" name="title[]">');
+                }
+            }else{
+                $('#Number').empty();
+            }
+            if( !$(this).val() ){
+                $('#Number').empty();
+            }
+            // If user tries to click on the span then trigger the click event manually.
+
+        });
+    </script>
 @endsection

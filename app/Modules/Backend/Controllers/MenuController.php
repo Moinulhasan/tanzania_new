@@ -102,9 +102,28 @@ class MenuController extends Controller
 
     public function subMenuCount(Request $request)
     {
-        $list = MenuTitle::with('menu')->get();
+        $listMenus = $this->service->getListMenus();
+        $menuID = $request->get('menu_id', 'none');
+
+        $menuObject = [];
+        if ($menuID == 'none') {
+            if ($listMenus->count() > 0) {
+                $menuID = $listMenus[0]->menu_id;
+            }
+        }
+
+        if ($menuID != 'none') {
+            $menuObject = $this->service->getMenuByID($menuID);
+            if (!empty($menuObject)) {
+                $currentLocation = $menuObject->menu_position;
+            }
+        }
+
+        $menuStructureItems = $this->service->getMenuItemsByMenuID($menuID);
+        $menuStructureItems = flatten_menu_data($menuStructureItems);
+        $list = MenuTitle::with('menu','titleList')->get();
         return $this->getView($this->getFolderView('menu.submenu_cout'), [
-            'listMenus' => $list,
+            'listMenus' => $menuStructureItems,
         ]);
     }
 
@@ -117,16 +136,17 @@ class MenuController extends Controller
         if ($validation->fails()) {
             return redirect()->back();
         }
-
-        $item = new MenuTitle;
-        $item->menu_id = $request->menu;
-        $item->title = $request->count;
-        $item->Save();
+        foreach ($request->title as $title) {
+            $item = new MenuTitle;
+            $item->menu_id = $request->menu;
+            $item->title = $title;
+            $item->Save();
+        }
 
         return redirect()->to('/dashboard/title-count');
     }
 
-    public function subMenuEdit(Request $request,$id)
+    public function subMenuEdit(Request $request, $id)
     {
         $listMenus = $this->service->getListMenus();
         $menuID = $request->get('menu_id', 'none');
@@ -147,18 +167,24 @@ class MenuController extends Controller
 
         $menuStructureItems = $this->service->getMenuItemsByMenuID($menuID);
         $menuStructureItems = flatten_menu_data($menuStructureItems);
-        $data = MenuTitle::find($id);
+        $data = MenuTitle::where('menu_id',$id)->get();
         return $this->getView($this->getFolderView('menu.sub_count_edit'), [
             'listMenus' => $menuStructureItems,
-            'single' => $data
+            'single' => $data,
+            'menu_id'=>$id
         ]);
     }
 
-    public function updateCount(Request $request,$id)
+    public function updateCount(Request $request, $id)
     {
-        $data = MenuTitle::find($id);
-        $data->title = $request->count;
-        $data->save();
+        MenuTitle::where('menu_id',$id)->delete();
+        foreach ($request->title as $item)
+        {
+            $data =new MenuTitle();
+            $data->title = $item;
+            $data->menu_id = $id;
+            $data->save();
+        }
         return redirect()->to('/dashboard/title-count');
     }
 

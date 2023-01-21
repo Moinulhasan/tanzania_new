@@ -181,6 +181,7 @@ if (!function_exists('get_normal_menu')) {
 }
 
 if (!function_exists('get_main_menu')) {
+
     function get_main_menu($menu_items, $detph = 1, $is_submenu = false, $parentId = null)
     {
         if ($is_submenu) {
@@ -194,7 +195,7 @@ if (!function_exists('get_main_menu')) {
         //echo '<li class="menu-item menu-item-10  col-sm-12"> all your info test</li>';
         $current_url = url()->current();
         $current_url = rtrim($current_url, '/');
-
+        $i = 0;
         foreach ($menu_items as $k => $v) {
             $item_link = rtrim($v->url, '/');
             $class_current = '';
@@ -239,16 +240,30 @@ if (!function_exists('get_main_menu')) {
                     echo '<li class="menu-item menu-item-10  col-sm-12" style="color:hsl(20deg 45% 62%) !important;padding-bottom:12px;padding-left:10px;padding-top:10px"> All the information you need for planning your climb</li>';
                 }
                 ?>
+
+
                 <li <?php if ($v->id == 1698 || $v->id == 1699 || $v->id == 1700 || $v->id == 1701) {
                     echo 'style="padding-left: 15px;"';
-                } ?> class="<?php echo esc_attr($class); ?> col-sm-<?php echo subMenuTile($parentId) != 0 ? subMenuTile($parentId) : 3 ?>">
 
-                    <a <?php if ($v->id == 1698 || $v->id == 1699 || $v->id == 1700 || $v->id == 1701) {
-                        echo 'style="padding-bottom: 2px !important;border-bottom: 1px solid black;padding-left: 2px !important;"';
-                    } ?> href="<?php echo esc_attr($v->url); ?>" <?php echo $target; ?>><?php echo esc_attr($v->name); ?></a>
+                } ?> class="<?php echo esc_attr($class); ?> col-sm-<?php echo subMenuTile($parentId)['count'] != 0 ? subMenuTile($parentId)['count'] : 3 ?>">
                     <?php
-                    if (isset($v->children)) {
-                        get_main_menu($v->children, 2, true);
+                    if (($i < subMenuTile($parentId)['item']) && count(subMenuTile($parentId)['value'])) {
+                        echo " <h5>".subMenuTile($parentId)['value'][$i]['title']."</h5>";
+                        ?>
+
+                        <?php
+                    } else {
+                        ?>
+
+                        <a <?php if ($v->id == 1698 || $v->id == 1699 || $v->id == 1700 || $v->id == 1701) {
+                            echo 'style="padding-bottom: 2px !important;border-bottom: 1px solid black;padding-left: 2px !important;"';
+                        } ?> href="<?php echo esc_attr($v->url); ?>" <?php echo $target; ?>><?php echo esc_attr($v->name); ?></a>
+                        <?php
+                        if (isset($v->children)) {
+                            get_main_menu($v->children, 2, true);
+                        }
+                        ?>
+                        <?php
                     }
                     ?>
                 </li>
@@ -262,6 +277,7 @@ if (!function_exists('get_main_menu')) {
                 @endif -->
             </li>
             <?php
+            $i++;
         }
         // dd(get_my_currency());
         // echo $v;
@@ -275,10 +291,20 @@ if (!function_exists('get_main_menu')) {
         echo '</ul>';
     }
 }
+function menuTitleList($menu)
+{
+    return \App\Models\MenuTitle::where('menu_id',$menu)->get();
+}
 function subMenuTile($menu)
 {
-    $output =  \App\Models\MenuTitle::where('menu_id', $menu)->first();
-    return round(12 / (int)($output->title));
+    $output = \App\Models\MenuTitle::where('menu_id', $menu)->get();
+    $count = count($output) > 0 ? (12 / (count($output))) : 0;
+    return [
+        'item' => count($output),
+        'count' => $count,
+        'value' => $output
+    ];
+
 }
 
 if (!function_exists('get_main_mobile_menu')) {

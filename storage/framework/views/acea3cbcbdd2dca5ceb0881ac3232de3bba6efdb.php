@@ -1,14 +1,14 @@
-@extends('Backend::layouts.master')
 
-@section('title', __('Menu'))
 
-@php
+<?php $__env->startSection('title', __('Menu')); ?>
+
+<?php
     admin_enqueue_scripts('jquery-ui');
     admin_enqueue_styles('jquery-ui');
     admin_enqueue_scripts('nested-sort-js');
-@endphp
+?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="layout-top-spacing">
         <div class="statbox widget box box-shadow">
 
@@ -16,8 +16,8 @@
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                         <div class="d-flex align-items-center justify-content-between">
-                            <h4>{{__('New Section')}}</h4>
-                            <a href="{{dashboard_url('sub-title-menu')}}" class="btn btn-success">{{__('Add New')}}</a>
+                            <h4><?php echo e(__('New Section')); ?></h4>
+                            <a href="<?php echo e(dashboard_url('sub-title-menu')); ?>" class="btn btn-success"><?php echo e(__('Add New')); ?></a>
                         </div>
 
                     </div>
@@ -29,21 +29,22 @@
                        data-plugin="footable">
                     <thead>
                     <tr>
-                        <th>{{__('Name')}}</th>
+                        <th><?php echo e(__('Name')); ?></th>
                         <th data-breakpoints="xs sm md">Total Row</th>
-                        <th class="text-center">{{__('Action')}}</th>
+                        <th class="text-center"><?php echo e(__('Action')); ?></th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($listMenus as $item)
+                    <?php $__currentLoopData = $listMenus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             <td>
-                                {{  $item->name }}
+                                <?php echo e($item->name); ?>
+
                             </td>
                             <td>
-                                @foreach(menuTitleList($item->id) as $list)
-                                    {{$list->title}} ,
-                                @endforeach
+                                <?php $__currentLoopData = menuTitleList($item->id); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php echo e($list->title); ?> ,
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </td>
                             <td class="text-center">
                                 <div class="dropdown custom-dropdown">
@@ -60,21 +61,22 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                         <a class="dropdown-item"
-                                           href="{{dashboard_url('sub-count-edit/' . $item->id)}}">{{__('Edit')}}</a>
+                                           href="<?php echo e(dashboard_url('sub-count-edit/' . $item->id)); ?>"><?php echo e(__('Edit')); ?></a>
 
                                         <a class="dropdown-item text-danger gmz-link-action" href="javascript:void(0);"
-                                           data-confirm="true" data-action="{{dashboard_url('sub-delete')}}"
-                                           data-params="{{$item->id}}"
-                                           data-remove-el="tr">{{__('Delete')}}</a>
+                                           data-confirm="true" data-action="<?php echo e(dashboard_url('sub-delete')); ?>"
+                                           data-params="<?php echo e($item->id); ?>"
+                                           data-remove-el="tr"><?php echo e(__('Delete')); ?></a>
 
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('Backend::layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\nfz\tanzania\app\Modules/Backend/Views/screens/admin/menu/submenu_cout.blade.php ENDPATH**/ ?>

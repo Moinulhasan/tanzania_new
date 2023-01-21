@@ -16,4 +16,8 @@ class MenuTitle extends Model
     {
         return $this->belongsTo(MenuStructure::class,'menu_id');
     }
+    public function titleList()
+    {
+        return $this->hasMany(MenuTitle::class,'menu_id');
+    }
 }
