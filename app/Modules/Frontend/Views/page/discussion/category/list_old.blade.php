@@ -1,0 +1,70 @@
+@extends('Backend::layouts.master')
+@section('title', __('All Category'))
+
+@section('content')
+
+<div class="mt-3 statbox widget box box-shadow">
+    <div class="mt-1">
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session()->has('danger'))
+            <div class="alert alert-danger">
+                {{ session('danger') }}
+            </div>
+        @endif
+    </div>
+
+    <div>
+        <h4 class="widget-header">
+            Categories of Discussion Forum
+        </h4>
+    </div>
+    <div class="row col-md-12">
+        <div class="ml-auto">
+            <a class="btn btn-success" href="{{route('discuss-category')}}">Create New</a>
+        </div>
+    </div>
+
+    <div class="table-responsive mb-4 mt-4">
+        <table class="multi-table table table-striped table-bordered table-hover non-hover w-100 footable footable-1 breakpoint-lg" data-plugin="footable">
+            <thead>
+                <tr class="footable-header">
+                    <th class="">Title</th>
+                    <th class="">Description</th>
+                    <th class="">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($cats as $cat)
+                    <tr>
+                        <td class="d-flex align-items-center" style="display: table-cell;">{{$cat->title}}</td>
+                        <td style="display: table-cell;">{{$cat->description}}</td>
+                        <td style="display: table-cell;">
+                            <div class="d-flex">
+                                <div class="mx-2">
+                                    <a href="{{route('discuss.edit',$cat->id)}}" class="text-info">
+                                        Edit
+                                    </a>
+                                </div>
+                                <div class="mx-2">
+                                    <a href="{{route('discuss.destroy',$cat->id)}}" class="text-danger">
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+            
+        </table>
+    </div>
+
+</div>
+@stop
+
