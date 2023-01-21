@@ -12,7 +12,6 @@ use App\Models\Menu;
 use App\Models\MenuTitle;
 use App\Services\MenuService;
 use Braintree\Error\Validation;
-use Dotenv\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use TorMorten\Eventy\Facades\Eventy;
@@ -177,6 +176,14 @@ class MenuController extends Controller
 
     public function updateCount(Request $request, $id)
     {
+//        $validation = validation::make($request->all(),[
+//            'title.*'=>'required|string',
+//            'menu_id'=>'required|integer'
+//        ]);
+//        if ($validation->fails)
+//        {
+//
+//        }
         MenuTitle::where('menu_id',$id)->delete();
         foreach ($request->title as $item)
         {
