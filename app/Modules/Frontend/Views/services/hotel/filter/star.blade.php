@@ -7,11 +7,12 @@
     }
 @endphp
 <div class="filter-item star">
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fal fa-star"></i> {{__('Star')}}
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div class="">
+{{--        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--            <i class="fal fa-star"></i> {{__('Star')}}--}}
+{{--        </button>--}}
+        <p>Rating</p>
+        <div class="" aria-labelledby="dropdownMenuButton">
             @for($s = 5; $s > 0; $s--)
                 <div class="star-item">
                     <label class="checkbox-inline">

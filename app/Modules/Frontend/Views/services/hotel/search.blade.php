@@ -36,14 +36,22 @@
     </section>
     <section class="list-half-map gmz-search-result" data-action="{{url('accommodation-search')}}">
         <div class="container-fluid">
-            <div class="search-filter d-flex align-items-center">
-                <div class="heading"><i class="fal fa-sliders-v-square"></i></div>
-                @include('Frontend::services.hotel.filter.price')
-                @include('Frontend::services.hotel.filter.star')
-                @include('Frontend::services.hotel.filter.term')
-            </div>
+{{--            <div class="search-filter d-flex align-items-center">--}}
+{{--              --}}
+{{--            </div>--}}
             <div class="row">
-                @include('Frontend::services.hotel.search.result')
+                <div class="col-md-2 p-3 pl-5" style="box-shadow: -3px 3px 12px -4px rgba(0,0,0,0.75)">
+                    <div class="heading text-center">
+                        <h3 class="font-weight-bold mb-3">Filter</h3>
+                    </div>
+                    @include('Frontend::services.hotel.filter.price')
+                    @include('Frontend::services.hotel.filter.star')
+                    @include('Frontend::services.hotel.filter.term')
+                </div>
+                <div class="col-md-10">
+                    @include('Frontend::services.hotel.search.result')
+                </div>
+
                 {{-- @include('Frontend::services.hotel.search.map') --}}
             </div>
         </div>

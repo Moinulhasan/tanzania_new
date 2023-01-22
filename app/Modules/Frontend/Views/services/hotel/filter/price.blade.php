@@ -11,11 +11,12 @@
     $extension_range = get_range_extension();
 @endphp
 <div class="filter-item price">
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fal fa-usd-circle"></i> {{__('Price')}}
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div>
+{{--        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--            <i class="fal fa-usd-circle"></i> {{__('Price')}}--}}
+{{--        </button>--}}
+        <p>Price</p>
+        <div>
             <input type="text" name="price_range" value=""
                    data-min="{{$price_range['min']}}"
                    data-max="{{$price_range['max']}}"
