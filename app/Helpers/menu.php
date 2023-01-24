@@ -7,12 +7,16 @@
  */
 
 if (!function_exists('render_menu_tree')) {
+
     function render_menu_tree($menu_items, $detph = 1)
     {
         if ($detph > 1) {
             echo '<ol>';
         }
         foreach ($menu_items as $k => $v) {
+            if ($detph == 1) {
+                $GLOBALS['a'] = $v->id;
+            }
             ?>
             <li id="gmz-mn-<?php echo esc_attr($v->item_id); ?>" data-type="<?php echo esc_attr($v->type); ?>"
                 data-post_id="<?php echo esc_attr($v->post_id); ?>"
@@ -38,13 +42,25 @@ if (!function_exists('render_menu_tree')) {
                                 <input type="text" class="form-control form-control-sm menu_url"
                                        value="<?php echo esc_attr($v->url); ?>">
                             </div>
-                            <!--                            <div class="form-group name">-->
-                            <!--                                <label>-->
-                            <?php //echo __('Enter Total Section') ?><!--</label>-->
-                            <!--                                <input type="text" class="form-control form-control-sm menu_name"-->
-                            <!--                                       value="-->
-                            <?php //echo esc_attr($v->name); ?><!--">-->
-                            <!--                            </div>-->
+                            <?php
+                            if ($detph > 1) {
+                                ?>
+                                <div class="form-group">
+                                    <label for="">Menu Title</label>
+                                    <select name="title_id" id="" class="form-control title_id">
+                                        <option value="">Select One</option>
+                                        <?php
+                                        foreach (getMenuTitleList($GLOBALS['a']) as $item) {
+                                            ?>
+                                            <option value="<?php echo $item->id ?>" <?php echo ($item->id == $v->title_id?'selected':'') ?>><?php echo $item->title ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <?php
+                            }
+                            ?>
                             <div class="form-group target">
                                 <div class="checkbox checkbox-success">
                                     <input <?php echo (!empty($v->target_blank)) ? 'checked' : ''; ?>
@@ -79,6 +95,11 @@ if (!function_exists('render_menu_tree')) {
             echo '</ol>';
         }
     }
+}
+function getMenuTitleList($id)
+{
+    echo $id;
+    return \App\Models\MenuTitle::where('menu_id', $id)->get();
 }
 
 if (!function_exists('flatten_menu_data')) {
@@ -248,7 +269,7 @@ if (!function_exists('get_main_menu')) {
                 } ?> class="<?php echo esc_attr($class); ?> col-sm-<?php echo subMenuTile($parentId)['count'] != 0 ? subMenuTile($parentId)['count'] : 3 ?>">
                     <?php
                     if (($i < subMenuTile($parentId)['item']) && count(subMenuTile($parentId)['value'])) {
-                        echo " <h5>".subMenuTile($parentId)['value'][$i]['title']."</h5>";
+                        echo " <h5>" . subMenuTile($parentId)['value'][$i]['title'] . "</h5>";
                         ?>
 
                         <?php
@@ -293,8 +314,9 @@ if (!function_exists('get_main_menu')) {
 }
 function menuTitleList($menu)
 {
-    return \App\Models\MenuTitle::where('menu_id',$menu)->get();
+    return \App\Models\MenuTitle::where('menu_id', $menu)->get();
 }
+
 function subMenuTile($menu)
 {
     $output = \App\Models\MenuTitle::where('menu_id', $menu)->get();
