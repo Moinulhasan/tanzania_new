@@ -85,6 +85,7 @@ class MenuService extends AbstractService
         $menu_name = $request->post('menu_name');
         $menu_location = $request->post('menu_location');
         $menu_structure = $request->post('menu_structure');
+        $menu_title= $request->post('menu_title');
 
         if (!empty($menu_name)) {
             $menu_structure = json_decode($menu_structure);
@@ -98,10 +99,11 @@ class MenuService extends AbstractService
                 $new_menu = $this->repository->create([
                     'menu_title' => $menu_name,
                     'menu_position' => $menu_location,
-                    'created_at' => time()
+                    'created_at' => time(),
+                    'title_id' => $menu_title,
                 ]);
                 if (!empty($new_menu)) {
-                    $this->_updateMenuStructure($new_menu, $menu_structure);
+                    $this->_updateMenuStructure($new_menu, $menu_structure,$menu_title);
                 }
 
                 if ($new_menu) {
@@ -116,10 +118,11 @@ class MenuService extends AbstractService
                 $this->repository->update($menu_id, [
                     'menu_title' => $menu_name,
                     'menu_position' => $menu_location,
+                    'title_id' => $menu_title,
                 ]);
 
                 if (!empty($menu_structure)) {
-                    $this->_updateMenuStructure($menu_id, $menu_structure);
+                    $this->_updateMenuStructure($menu_id, $menu_structure,$menu_title);
                 }
 
                 return [
@@ -165,7 +168,7 @@ class MenuService extends AbstractService
         return false;
     }
 
-    private function _updateMenuStructure($menu_id, $menu_structure)
+    private function _updateMenuStructure($menu_id, $menu_structure,$title=null)
     {
         $menuStructureRepo = MenuStructureRepository::inst();
         $menuStructureRepo->resetMenuStructure($menu_id);
@@ -186,7 +189,8 @@ class MenuService extends AbstractService
                     'menu_id' => $menu_id,
                     'menu_lang' => get_current_language(),
                     'target_blank' => isset($v->target_blank) ? $v->target_blank : 0,
-                    'created_at' => time()
+                    'created_at' => time(),
+                    'title_id' => $v->title_id,
                 ];
 
                 $menuStructureRepo->create($data);
