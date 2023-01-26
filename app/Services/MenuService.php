@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\MenuTitle;
 use App\Repositories\MenuRepository;
 use App\Repositories\MenuStructureRepository;
 use Illuminate\Http\Request;
@@ -192,8 +193,8 @@ class MenuService extends AbstractService
                     'created_at' => time(),
                     'title_id' => $v->title_id,
                 ];
-
-                $menuStructureRepo->create($data);
+              $output =   $menuStructureRepo->create($data);
+              MenuTitle::where('menu_id',$menu_id)->update(['menu_id',$output->menu_id]);
             }
         }
     }
