@@ -172,10 +172,12 @@ class MenuService extends AbstractService
     private function _updateMenuStructure($menu_id, $menu_structure,$title=null)
     {
 //        dd($menu_structure);
+//        dd($menu_structure);
         $menuStructureRepo = MenuStructureRepository::inst();
 //        $menuStructureRepo->resetMenuStructure($menu_id);
         if (!empty($menu_structure)) {
             foreach ($menu_structure as $k => $v) {
+
                 $data = [
                     'item_id' => $v->item_id,
                     'parent_id' => $v->parent_id,
@@ -194,9 +196,12 @@ class MenuService extends AbstractService
                     'created_at' => time(),
                     'title_id' => $v->title_id??null,
                 ];
-//              $output =   $menuStructureRepo->create($data);
-              dd($data);
-              MenuTitle::where('menu_id',$menu_id)->update(['menu_id',$output]);
+
+              $output =   $menuStructureRepo->create($data);
+                if (!$v->parent_id){
+                    MenuTitle::where('menu_id',$menu_id)->update(['menu_id',$output]);
+                }
+
             }
         }
     }
