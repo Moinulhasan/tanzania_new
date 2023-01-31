@@ -66,7 +66,8 @@
                                            data-confirm="true" data-action="{{dashboard_url('sub-delete')}}"
                                            data-params="{{$item->id}}"
                                            data-remove-el="tr">{{__('Delete')}}</a>
-
+                                        <a class="dropdown-item"
+                                           href="{{dashboard_url('menu-title/' . $item->id)}}">{{__('Menu Assign')}}</a>
                                     </div>
                                 </div>
                             </td>

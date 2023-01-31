@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="section-content">
-            <div class="accordion" id="accordionFaq">
+            <div class="accordion" id="accordionFaq" style="overflow: hidden !important;">
                 @foreach($itineraries as $kfaq => $vfaq)
                     <div class="card">
                         <div class="card-header" id="heading{{$kfaq}}">
