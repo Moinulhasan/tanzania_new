@@ -67,7 +67,8 @@
                                            data-confirm="true" data-action="<?php echo e(dashboard_url('sub-delete')); ?>"
                                            data-params="<?php echo e($item->id); ?>"
                                            data-remove-el="tr"><?php echo e(__('Delete')); ?></a>
-
+                                        <a class="dropdown-item"
+                                           href="<?php echo e(dashboard_url('menu-title/' . $item->id)); ?>"><?php echo e(__('Menu Assign')); ?></a>
                                     </div>
                                 </div>
                             </td>

@@ -42,25 +42,25 @@ if (!function_exists('render_menu_tree')) {
                                 <input type="text" class="form-control form-control-sm menu_url"
                                        value="<?php echo esc_attr($v->url); ?>">
                             </div>
-                            <?php
-                            if ($detph > 1) {
-                                ?>
-                                <div class="form-group">
-                                    <label for="">Menu Title</label>
-                                    <select name="title_id" id="" class="form-control title_id">
-                                        <option value="">Select One</option>
-                                        <?php
-                                        foreach (getMenuTitleList($GLOBALS['a']) as $item) {
-                                            ?>
-                                            <option value="<?php echo $item->id ?>" <?php echo ($item->id == $v->title_id?'selected':'') ?>><?php echo $item->title ?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <?php
-                            }
-                            ?>
+<!--                            --><?php
+//                            if ($detph > 1) {
+//                                ?>
+<!--                                <div class="form-group">-->
+<!--                                    <label for="">Menu Title</label>-->
+<!--                                    <select name="title_id" id="" class="form-control title_id">-->
+<!--                                        <option value="">Select One</option>-->
+<!--                                        --><?php
+//                                        foreach (getMenuTitleList($GLOBALS['a']) as $item) {
+//                                            ?>
+<!--                                            <option value="--><?php //echo $item->id ?><!--" --><?php //echo ($item->id == $v->title_id?'selected':'') ?><!-->--><?php //echo $item->title ?><!--</option>-->
+<!--                                            --><?php
+//                                        }
+//                                        ?>
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                                --><?php
+//                            }
+//                            ?>
                             <div class="form-group target">
                                 <div class="checkbox checkbox-success">
                                     <input <?php echo (!empty($v->target_blank)) ? 'checked' : ''; ?>

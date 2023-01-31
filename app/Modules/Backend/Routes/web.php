@@ -128,6 +128,8 @@ Route::group([
     Route::get('sub-count-edit/{id}', 'MenuController@subMenuEdit');
     Route::put('sub-edit/{id}', 'MenuController@updateCount')->name('count-edit');
     Route::post('sub-delete','MenuController@deleteCount');
+    Route::get('menu-title/{id}','MenuController@getTitleWithMenu')->name('title-menu');
+
 
     Route::post('store-title', 'MenuController@storeTitle')->name('title');
 

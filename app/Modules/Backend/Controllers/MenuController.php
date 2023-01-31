@@ -203,4 +203,36 @@ class MenuController extends Controller
             'status' => true,
         ];
     }
+
+    public function getTitleWithMenu(Request $request, $id)
+    {
+        $menuLocations = Eventy::filter('gmz_menu_locations', admin_config('menu_location'));
+        $currentLocation = '';
+
+        $listMenus = $this->service->getListMenus();
+        $menuID = $request->get('menu_id', 'none');
+
+        $menuObject = [];
+        if ($menuID == 'none') {
+            if ($listMenus->count() > 0) {
+                $menuID = $listMenus[0]->menu_id;
+            }
+        }
+
+        if ($menuID != 'none') {
+            $menuObject = $this->service->getMenuByID($menuID);
+            if (!empty($menuObject)) {
+                $currentLocation = $menuObject->menu_position;
+            }
+        }
+        $menuStructureItems = $this->service->getMenuItemsByMenuID($menuID);
+        $menuStructureItems = flatten_menu_data($menuStructureItems);
+        $data = MenuTitle::where('menu_id',$id)->get();
+        return $this->getView($this->getFolderView('menu.title_menu'), [
+            'listMenus' => $menuStructureItems,
+            'single' => $data,
+            'menu_obj'=>$menuObject,
+            'menu_id'=>$id
+        ]);
+    }
 }
